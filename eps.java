@@ -1,3 +1,4 @@
+package actividadArrayList;
 import java.util.*;
 
 class Paciente {
@@ -13,40 +14,67 @@ class Paciente {
 
     @Override
     public String toString() {
-        return nombre + " (ID: " + id + ", Tipo: " + tipoAtencion + ")";
+        return nombre + " | ID: " + id + " | Atención: " + tipoAtencion;
+
+    }
+
+   
+    public static int leerEntero(Scanner sc) {
+        int opcion = -1;
+
+        System.out.print("Seleccione una opción: ");
+
+        if (sc.hasNextInt()) {
+            opcion = sc.nextInt();
+        } else {
+            System.out.println("❌ Entrada inválida. Por favor, ingrese un número.");
+            sc.nextLine(); 
+        }
+
+        return opcion;
     }
 }
 
-public class MenuEPS {
+public class MenueEps {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // 🟦 Cola de espera normal
+     
         Queue<Paciente> colaEspera = new LinkedList<>();
 
-        // 🟨 Pila para historial de pacientes atendidos
+  
         Stack<Paciente> historial = new Stack<>();
 
-        // 🟥 ArrayDeque para atención rápida o prioritaria
-        ArrayDeque<Paciente> atencionRapida = new ArrayDeque<>();
+ 
+        ArrayDeque<Paciente> DanielSuperRapido = new ArrayDeque<>();
 
         int opcion;
+
         do {
-            System.out.println("\n===== MENÚ =====");
-            System.out.println("1. Registrar nuevo paciente (Cola)");
-            System.out.println("2. Atender siguiente paciente (Cola ➜ Pila)");
-            System.out.println("3. Ver siguiente paciente (Cola)");
-            System.out.println("4. Mostrar historial de pacientes atendidos (Pila)");
-            System.out.println("5. Registrar paciente de atención rápida (ArrayDeque)");
-            System.out.println("6. Mostrar pacientes en atención rápida (ArrayDeque)");
-            System.out.println("7. Salir");
-            System.out.print("Seleccione una opción: ");
-            opcion = sc.nextInt();
-            sc.nextLine(); // limpiar buffer
+            System.out.println("══════════════════════════════════════════════════════════");
+            System.out.println("                 🏥 EPS HEYCLIC - SISTEMA DE ATENCIÓN      ");
+            System.out.println("══════════════════════════════════════════════════════════");
+
+            System.out.println("\n> PACIENTES GENERALES");
+            System.out.println("  [1] Registrar nuevo paciente");
+            System.out.println("  [2] Atender siguiente paciente");
+            System.out.println("  [3] Ver siguiente paciente");
+            System.out.println("  [4] Mostrar historial");
+
+            System.out.println("\n> PACIENTES ATENCIÓN RÁPIDA (UZI)");
+            System.out.println("  [5] Registrar paciente UZI");
+            System.out.println("  [6] Mostrar pacientes en UZI");
+            System.out.println("  [7] Atender paciente UZI");
+
+            System.out.println("\n[0] Apagar sistema");
+            System.out.println("══════════════════════════════════════════════════════════");
+
+            opcion = Paciente.leerEntero(sc);
+            sc.nextLine(); 
 
             switch (opcion) {
                 case 1:
-                    // 🟦 Agregar paciente a la cola
+                   
                     System.out.print("Nombre del paciente: ");
                     String nombre = sc.nextLine();
                     System.out.print("ID: ");
@@ -59,7 +87,7 @@ public class MenuEPS {
                     break;
 
                 case 2:
-                    // 🟦 Sacar de la cola y 🟨 guardar en historial
+                    
                     if (!colaEspera.isEmpty()) {
                         Paciente atendido = colaEspera.poll();
                         historial.push(atendido);
@@ -70,7 +98,7 @@ public class MenuEPS {
                     break;
 
                 case 3:
-                    // 🟦 Ver el próximo paciente
+   
                     if (!colaEspera.isEmpty()) {
                         System.out.println("👀 Siguiente en cola: " + colaEspera.peek());
                     } else {
@@ -79,7 +107,7 @@ public class MenuEPS {
                     break;
 
                 case 4:
-                    // 🟨 Mostrar pila (historial)
+                 
                     if (!historial.isEmpty()) {
                         System.out.println("📜 Historial de pacientes atendidos:");
                         for (Paciente p : historial) {
@@ -91,7 +119,7 @@ public class MenuEPS {
                     break;
 
                 case 5:
-                    // 🟥 Registrar paciente en atención rápida
+          
                     System.out.print("Nombre del paciente prioritario: ");
                     String n = sc.nextLine();
                     System.out.print("ID: ");
@@ -99,15 +127,15 @@ public class MenuEPS {
                     System.out.print("Motivo (prioritario): ");
                     String m = sc.nextLine();
 
-                    atencionRapida.addFirst(new Paciente(n, i, m));
+                    DanielSuperRapido.addFirst(new Paciente(n, i, m));
                     System.out.println("🚨 Paciente agregado a atención rápida.");
                     break;
 
                 case 6:
-                    // 🟥 Mostrar pacientes en atención rápida
-                    if (!atencionRapida.isEmpty()) {
+                
+                    if (!DanielSuperRapido.isEmpty()) {
                         System.out.println("🚑 Pacientes en atención rápida:");
-                        for (Paciente p : atencionRapida) {
+                        for (Paciente p : DanielSuperRapido) {
                             System.out.println(" - " + p);
                         }
                     } else {
@@ -116,6 +144,17 @@ public class MenuEPS {
                     break;
 
                 case 7:
+               
+                    if (!DanielSuperRapido.isEmpty()) {
+                        Paciente atendidoPrioritario = DanielSuperRapido.removeFirst();
+                        historial.push(atendidoPrioritario);
+                        System.out.println("🩺 Atendiendo a (prioritario): " + atendidoPrioritario);
+                    } else {
+                        System.out.println("⚠️ No hay pacientes en atención rápida.");
+                    }
+                    break;
+
+                case 0:
                     System.out.println("👋 Saliendo del sistema...");
                     break;
 
@@ -123,13 +162,8 @@ public class MenuEPS {
                     System.out.println("❌ Opción inválida. Intente nuevamente.");
             }
 
-        } while (opcion != 7);
-
-                                        HOLA HOLA HOLA HOLA HOLA
+        } while (opcion != 0);
 
         sc.close();
     }
 }
-
-
-
