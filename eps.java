@@ -32,7 +32,7 @@ public class MenuEPS {
 
         int opcion;
         do {
-            System.out.println("\n===== MENÚ EPS =====");
+            System.out.println("\n===== MENÚ =====");
             System.out.println("1. Registrar nuevo paciente (Cola)");
             System.out.println("2. Atender siguiente paciente (Cola ➜ Pila)");
             System.out.println("3. Ver siguiente paciente (Cola)");
@@ -130,5 +130,6 @@ public class MenuEPS {
         sc.close();
     }
 }
+
 
 
