@@ -1,4 +1,4 @@
-package actividadArrayList;
+package codeEPS;
 import java.util.*;
 
 class Paciente {
@@ -15,37 +15,29 @@ class Paciente {
     @Override
     public String toString() {
         return nombre + " | ID: " + id + " | Atención: " + tipoAtencion;
-
     }
 
-   
+    // Método auxiliar para leer enteros del menú principal
     public static int leerEntero(Scanner sc) {
         int opcion = -1;
-
         System.out.print("Seleccione una opción: ");
 
         if (sc.hasNextInt()) {
             opcion = sc.nextInt();
         } else {
             System.out.println("❌ Entrada inválida. Por favor, ingrese un número.");
-            sc.nextLine(); 
+            sc.nextLine();
         }
-
         return opcion;
     }
 }
 
-public class MenueEps {
+public class CodeEPS {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-     
         Queue<Paciente> colaEspera = new LinkedList<>();
-
-  
-        Stack<Paciente> historial = new Stack<>();
-
- 
+        Stack<Paciente> LuisPiloso = new Stack<>();
         ArrayDeque<Paciente> DanielSuperRapido = new ArrayDeque<>();
 
         int opcion;
@@ -70,27 +62,60 @@ public class MenueEps {
             System.out.println("══════════════════════════════════════════════════════════");
 
             opcion = Paciente.leerEntero(sc);
-            sc.nextLine(); 
+            sc.nextLine(); // limpiar buffer
 
             switch (opcion) {
                 case 1:
-                   
-                    System.out.print("Nombre del paciente: ");
-                    String nombre = sc.nextLine();
-                    System.out.print("ID: ");
-                    String id = sc.nextLine();
-                    System.out.print("Tipo de atención (general / urgencia): ");
-                    String tipo = sc.nextLine();
+                    // Registrar paciente general
+                    String nombre;
+                    String id;
+                    String tipo = "";
+
+                    // Validar nombre (solo letras, sin números)
+                    while (true) {
+                        System.out.print("Nombre del paciente: ");
+                        nombre = sc.nextLine();
+                        if (nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                            break;
+                        } else {
+                            System.out.println("❌ Nombres solo corresponden a letras, ignora tildes, inténtalo nuevamente.");
+                        }
+                    }
+
+                    // Validar ID (solo números)
+                    while (true) {
+                        System.out.print("ID (solo números): ");
+                        id = sc.nextLine();
+                        if (id.matches("\\d+")) {
+                            break;
+                        } else {
+                            System.out.println("❌ ID solo corresponde a números, inténtalo nuevamente.");
+                        }
+                    }
+
+                    // Seleccionar tipo de atención (0 o 1)
+                    while (true) {
+                        System.out.print("Tipo de atención (0. general / 1. urgencia): ");
+                        String tipoOpcion = sc.nextLine();
+                        if (tipoOpcion.equals("0")) {
+                            tipo = "general";
+                            break;
+                        } else if (tipoOpcion.equals("1")) {
+                            tipo = "urgencia";
+                            break;
+                        } else {
+                            System.out.println("❌ Opción inexistente, intenta nuevamente.");
+                        }
+                    }
 
                     colaEspera.add(new Paciente(nombre, id, tipo));
                     System.out.println("✅ Paciente agregado a la cola de espera.");
                     break;
 
                 case 2:
-                    
                     if (!colaEspera.isEmpty()) {
                         Paciente atendido = colaEspera.poll();
-                        historial.push(atendido);
+                        LuisPiloso.push(atendido);
                         System.out.println("🩺 Atendiendo a: " + atendido);
                     } else {
                         System.out.println("⚠️ No hay pacientes en espera.");
@@ -98,7 +123,6 @@ public class MenueEps {
                     break;
 
                 case 3:
-   
                     if (!colaEspera.isEmpty()) {
                         System.out.println("👀 Siguiente en cola: " + colaEspera.peek());
                     } else {
@@ -107,10 +131,9 @@ public class MenueEps {
                     break;
 
                 case 4:
-                 
-                    if (!historial.isEmpty()) {
+                    if (!LuisPiloso.isEmpty()) {
                         System.out.println("📜 Historial de pacientes atendidos:");
-                        for (Paciente p : historial) {
+                        for (Paciente p : LuisPiloso) {
                             System.out.println(" - " + p);
                         }
                     } else {
@@ -119,20 +142,28 @@ public class MenueEps {
                     break;
 
                 case 5:
-          
-                    System.out.print("Nombre del paciente prioritario: ");
-                    String n = sc.nextLine();
-                    System.out.print("ID: ");
-                    String i = sc.nextLine();
-                    System.out.print("Motivo (prioritario): ");
-                    String m = sc.nextLine();
+                    // Registrar paciente UZI (rápido)
+                    String n, i, m;
+                    while (true) {
+                        System.out.print("Nombre del paciente prioritario: ");
+                        n = sc.nextLine();
+                        if (n.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) break;
+                        System.out.println("❌ Nombres solo corresponden a letras, ignora tildes, inténtalo nuevamente.");
+                    }
 
+                    while (true) {
+                        System.out.print("ID: ");
+                        i = sc.nextLine();
+                        if (i.matches("\\d+")) break;
+                        System.out.println("❌ ID solo corresponde a números, inténtalo nuevamente.");
+                    }
+
+                    m = "prioritario"; // Forzamos el motivo para mantener consistencia
                     DanielSuperRapido.addFirst(new Paciente(n, i, m));
                     System.out.println("🚨 Paciente agregado a atención rápida.");
                     break;
 
                 case 6:
-                
                     if (!DanielSuperRapido.isEmpty()) {
                         System.out.println("🚑 Pacientes en atención rápida:");
                         for (Paciente p : DanielSuperRapido) {
@@ -144,10 +175,9 @@ public class MenueEps {
                     break;
 
                 case 7:
-               
                     if (!DanielSuperRapido.isEmpty()) {
                         Paciente atendidoPrioritario = DanielSuperRapido.removeFirst();
-                        historial.push(atendidoPrioritario);
+                        LuisPiloso.push(atendidoPrioritario);
                         System.out.println("🩺 Atendiendo a (prioritario): " + atendidoPrioritario);
                     } else {
                         System.out.println("⚠️ No hay pacientes en atención rápida.");
