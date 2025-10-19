@@ -16,9 +16,9 @@ class Paciente {
     @Override
     public String toString() {
         String emoji = "";
-        if (nivelPrioridad == 1) emoji = "🤕";
-        else if (nivelPrioridad == 2) emoji = "🤒";
-        else if (nivelPrioridad == 3) emoji = "😷";
+        if (nivelPrioridad == 1) emoji = "🔴";
+        else if (nivelPrioridad == 2) emoji = "🟡";
+        else if (nivelPrioridad == 3) emoji = "🟢";
         
         return emoji + " " + nombre + " | ID: " + id + " | Atención: " + tipoAtencion;
     }
@@ -246,3 +246,4 @@ public class eps {
         sc.close();
     }
 }
+
