@@ -1,15 +1,16 @@
+package actividadArrayList;
 import java.util.*;
 
 class Paciente {
     String nombre;
     String id;
-    String tipoAtencion;
-    int nivelPrioridad; // 1=Crítico, 2=Urgente, 3=Normall
+    String motivoIngreso;
+    int nivelPrioridad; // 1=Crítico,  3=Urgente
 
-    public Paciente(String nombre, String id, String tipoAtencion, int nivelPrioridad) {
+    public Paciente(String nombre, String id, String motivoIngreso, int nivelPrioridad) {
         this.nombre = nombre;
         this.id = id;
-        this.tipoAtencion = tipoAtencion;
+        this.motivoIngreso = motivoIngreso;
         this.nivelPrioridad = nivelPrioridad;
     }
 
@@ -17,10 +18,10 @@ class Paciente {
     public String toString() {
         String emoji = "";
         if (nivelPrioridad == 1) emoji = "🔴";
-        else if (nivelPrioridad == 2) emoji = "🟡";
+        
         else if (nivelPrioridad == 3) emoji = "🟢";
         
-        return emoji + " " + nombre + " | ID: " + id + " | Atención: " + tipoAtencion;
+        return emoji + " " + nombre + " | ID: " + id + " | Motivo de ingreso: " + motivoIngreso;
     }
 
     public static int leerEntero(Scanner sc) {
@@ -37,7 +38,7 @@ class Paciente {
     }
 }
 
-public class eps {
+public class MenueEps {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -82,7 +83,7 @@ public class eps {
                     // Registrar paciente general
                     String nombre;
                     String id;
-                    String tipo = "";
+                    String motivo = "";
                     int nivel = 3; // Por defecto nivel normal
 
                     while (true) {
@@ -106,22 +107,12 @@ public class eps {
                     }
 
                     while (true) {
-                        System.out.print("Tipo de atención (0. general / 1. urgencia): ");
-                        String tipoOpcion = sc.nextLine();
-                        if (tipoOpcion.equals("0")) {
-                            tipo = "general";
-                            nivel = 3; // 🟢 Normal
-                            break;
-                        } else if (tipoOpcion.equals("1")) {
-                            tipo = "urgencia";
-                            nivel = 2; // 🟡 Urgente
-                            break;
-                        } else {
-                            System.out.println("❌ Opción inexistente, intenta nuevamente.");
-                        }
+                        System.out.print("Motivo de ingreso: ");
+                        motivo = sc.nextLine().trim();
+                        if (!motivo.isEmpty()) break;
+                        System.out.println("❌ El motivo no puede estar vacío.");
                     }
-
-                    Miguelillo.add(new Paciente(nombre, id, tipo, nivel));
+                    Miguelillo.add(new Paciente(nombre, id, motivo, nivel));
                     System.out.println("✅ Paciente agregado a la cola de espera.");
                     break;
 
@@ -246,4 +237,3 @@ public class eps {
         sc.close();
     }
 }
-
