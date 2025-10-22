@@ -5,7 +5,7 @@ class Paciente {
     String nombre;
     String id;
     String motivoIngreso;
-    int nivelPrioridad; // 1=Crítico,  3=Urgente
+    int nivelPrioridad; 
 
     public Paciente(String nombre, String id, String motivoIngreso, int nivelPrioridad) {
         this.nombre = nombre;
@@ -18,10 +18,10 @@ class Paciente {
     public String toString() {
         String emoji = "";
         if (nivelPrioridad == 1) emoji = "🔴";
-        
+        else if (nivelPrioridad == 2) emoji = "🟡";
         else if (nivelPrioridad == 3) emoji = "🟢";
         
-        return emoji + " " + nombre + " | ID: " + id + " | Motivo de ingreso: " + motivoIngreso;
+        return emoji + " " + nombre + " | ID: " + id + " | Atención: " + motivoIngreso;
     }
 
     public static int leerEntero(Scanner sc) {
@@ -42,13 +42,13 @@ public class MenueEps {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // Cola normal para pacientes generales (FIFO)
+        
         Queue<Paciente> Miguelillo = new LinkedList<>();
         
-        // Pila para historial de atendidos (LIFO)
+        
         Stack<Paciente> LuisPiloso = new Stack<>();
         
-        // ArrayDeque para pacientes prioritarios (FIFO también)
+        
         ArrayDeque<Paciente> DanielSuperRapido = new ArrayDeque<>();
 
         int opcion;
@@ -80,11 +80,11 @@ public class MenueEps {
 
             switch (opcion) {
                 case 1:
-                    // Registrar paciente general
+               
                     String nombre;
                     String id;
                     String motivo = "";
-                    int nivel = 3; // Por defecto nivel normal
+                    int nivel = 3; 
 
                     while (true) {
                         System.out.print("Nombre del paciente: ");
@@ -147,7 +147,7 @@ public class MenueEps {
                     break;
 
                 case 5:
-                    // Registrar paciente UCI (prioritario)
+
                     String n, i;
                     
                     while (true) {
@@ -166,7 +166,7 @@ public class MenueEps {
                         System.out.println("❌ ID solo corresponde a números, inténtalo nuevamente.");
                     }
 
-                    // CAMBIO: ahora usa addLast para mantener orden FIFO
+              
                     DanielSuperRapido.addLast(new Paciente(n, i, "prioritario", 1));
                     System.out.println("🚨 Paciente agregado a atención rápida.");
                     break;
@@ -183,10 +183,10 @@ public class MenueEps {
                     } else {
                         System.out.println("⚠️ No hay pacientes en atención rápida.");
                     }
-                    break;
-
+                    break;1
+1
                 case 7:
-                    if (!DanielSuperRapido.isEmpty()) {
+                    if (!DanielSuperRapido.isEmpty()) {477
                         Paciente atendidoPrioritario = DanielSuperRapido.removeFirst();
                         LuisPiloso.push(atendidoPrioritario);
                         System.out.println("🩺 Atendiendo a (prioritario): " + atendidoPrioritario);
@@ -196,26 +196,26 @@ public class MenueEps {
                     break;
 
                 case 8:
-                    // Estadísticas simples
-                    System.out.println("\n📊 RESUMEN DE PACIENTES");
+   
+                    System.out.println("\n📊 RESUMEN DE PACI0ENTES");
                     System.out.println("═══════════════════════════════════════");
                     System.out.println("👥 En espera general: " + Miguelillo.size());
                     System.out.println("🚨 En atención rápida: " + DanielSuperRapido.size());
                     System.out.println("✅ Total atendidos: " + LuisPiloso.size());
                     System.out.println("═══════════════════════════════════════");
                     
-                    // Contar pacientes por nivel en cola general
+                
                     int normales = 0;
-                    int urgentes = 0;
+                    
                     for (Paciente p : Miguelillo) {
                         if (p.nivelPrioridad == 3) normales++;
-                        else if (p.nivelPrioridad == 2) urgentes++;
+                        
                     }
                     
                     if (Miguelillo.size() > 0) {
                         System.out.println("\nEn cola general:");
                         System.out.println("🟢 Normales: " + normales);
-                        System.out.println("🟡 Urgentes: " + urgentes);
+                    
                     }
                     
                     if (DanielSuperRapido.size() > 0) {
@@ -237,3 +237,4 @@ public class MenueEps {
         sc.close();
     }
 }
+70
